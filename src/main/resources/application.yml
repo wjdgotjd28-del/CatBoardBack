@@ -9,4 +9,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+
+boardImgLocation: C:/Users/codehows/Documents/GitHub/CatBoardBack/board
+uploaPath: file:///C:/CatBoardBack/

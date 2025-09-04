@@ -1,5 +1,6 @@
 package com.catboardback.dto;
 
+import com.catboardback.constant.Category;
 import com.catboardback.entity.Member;
 import lombok.*;
 
@@ -13,7 +14,7 @@ public class BoardDto
 {
     private Long id;
 
-    private String cartegory;
+    private Category category;
 
     private String title;
 
@@ -22,4 +23,5 @@ public class BoardDto
     private LocalDateTime regTime;
 
     private String imgUrl;
+
 }

@@ -5,8 +5,6 @@ import com.catboardback.entity.Board;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
-
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -48,15 +46,16 @@ public class BoardFormDto {
                 .build();
     }
 
+    ///  public Board toEntity(Board board)로 변환
     // DTO -> Entity 변환
-    public Board toEntity(Board board) {
+    public Board toEntity() {
         return Board.builder()
                 .id(this.id)
                 .category(this.category)
                 .title(this.title)
                 .content(this.content)
                 .regTime(LocalDateTime.now())
-                .member(board.getMember())
+///                .member(board.getMember())
                 .build();
     }
 }

@@ -19,7 +19,7 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final BoardImgService boardImgService;
-    private final
+
 
     public BoardDto addBoard(BoardDto boardDto) {
         Board board = Board.builder()
@@ -33,11 +33,12 @@ public class BoardService {
         boardDto.setId(savedBoard.getId());
         return boardDto;
     }
-// 멤버 리포지토리 만들고 이메ㅇㄹ로 멤버 찾아서 toEntity에 멤버 넘겨서 board 엔티티에 member를 채우기.
-    public Long saveBoard(@Valid BoardFormDto boardFormDto, List<MultipartFile> boardImgFileList, String email) throws Exception {
-        Member member = memberRepository.findByEmail(email);
-
-        Board board = boardFormDto.toEntity(email); // Dto -> Entity
+/// 멤버 리포지토리 만들고 이메ㅇㄹ로 멤버 찾아서 toEntity에 멤버 넘겨서 board 엔티티에 member를 채우기.
+    public Long saveBoard(@Valid BoardFormDto boardFormDto, List<MultipartFile> boardImgFileList
+            , String email) throws Exception {
+///        Member member = memberRepository.findByEmail(email);
+///  toEntity(email로 수정)
+        Board board = boardFormDto.toEntity(); // Dto -> Entity
         boardRepository.save(board);
         if (boardImgFileList != null) {
             for (int i = 0; i < boardImgFileList.size(); i++) {

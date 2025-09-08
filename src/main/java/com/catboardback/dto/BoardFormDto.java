@@ -2,6 +2,7 @@ package com.catboardback.dto;
 
 import com.catboardback.constant.Category;
 import com.catboardback.entity.Board;
+import com.catboardback.entity.Member;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -48,14 +49,13 @@ public class BoardFormDto {
 
     ///  public Board toEntity(Board board)로 변환
     // DTO -> Entity 변환
-    public Board toEntity() {
+    public Board toEntity(Member member) {
         return Board.builder()
-                .id(this.id)
                 .category(this.category)
                 .title(this.title)
                 .content(this.content)
                 .regTime(LocalDateTime.now())
-///                .member(board.getMember())
+                .member(member)
                 .build();
     }
 }

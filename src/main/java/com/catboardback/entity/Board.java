@@ -31,7 +31,6 @@ public class Board
 
     private LocalDateTime regTime;
 
-    private String imgUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

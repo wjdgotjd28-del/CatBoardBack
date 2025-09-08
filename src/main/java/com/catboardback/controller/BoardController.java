@@ -1,16 +1,16 @@
 package com.catboardback.controller;
 
+import com.catboardback.constant.Category;
+import com.catboardback.dto.BoardDto;
 import com.catboardback.dto.BoardFormDto;
+import com.catboardback.entity.Board;
 import com.catboardback.service.BoardService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -34,11 +34,21 @@ public class BoardController {
 
         try {
             Long boardId = boardService.saveBoard(boardFormDto, boardImgFileList,authentication.getName());
-            return ResponseEntity.ok(boardId); // 게시글아이디 반환
+            return ResponseEntity. ok(boardId); // 게시글아이디 반환
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError()
                     .body("게시글 등록 중 에러가 발생했습니다.");
         }
+    }
+
+    @GetMapping("/board/category/{category}")
+    public List<BoardDto> getBoardList(@PathVariable Category category){
+        return boardService.getBoardList(category);
+    }
+
+    @GetMapping("/board/{boardId}")
+    public BoardDto getBoard(@PathVariable Long boardId) {
+        return boardService.getBoard(boardId);
     }
 }

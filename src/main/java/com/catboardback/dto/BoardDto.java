@@ -22,6 +22,7 @@ public class BoardDto
 
     private LocalDateTime regTime;
 
-    private String imgUrl;
+    private String nickname;
+
 
 }

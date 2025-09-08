@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -33,7 +34,6 @@ public class BoardService {
                 .category(boardDto.getCategory())
                 .title(boardDto.getTitle())
                 .content(boardDto.getContent())
-
                 .build();
         Board savedBoard = boardRepository.save(board);
 
@@ -85,7 +85,11 @@ public class BoardService {
         return boardDtoList;
     }
 
-    public BoardDto getBoard(Long boardId) {
+    ///  img랑 같이 보내야함.
+    @Transactional(readOnly = true)
+    public BoardDto getBoardDtl(Long boardId) {
+        /// board_id인 사진 목록 ID 오름차순으로 조회하기
+
         Board board = boardRepository.findById(boardId).orElseThrow(EntityNotFoundException::new);
         BoardDto boardDto = BoardDto.builder()
                 .id(board.getId())

@@ -20,6 +20,7 @@ import java.util.List;
 public class BoardController {
     private final BoardService boardService;
 
+    // 게시글 작성
     @PostMapping("/board/new")
     public ResponseEntity<?> createBoard(
             @Valid @ModelAttribute BoardFormDto boardFormDto,
@@ -42,13 +43,15 @@ public class BoardController {
         }
     }
 
+    // 카테고리별 조회
     @GetMapping("/board/category/{category}")
     public List<BoardDto> getBoardList(@PathVariable Category category){
         return boardService.getBoardList(category);
     }
 
+    // 게시글 상세 조회
     @GetMapping("/board/{boardId}")
-    public BoardDto getBoard(@PathVariable Long boardId) {
-        return boardService.getBoard(boardId);
+    public BoardDto getBoardDtl(@PathVariable Long boardId) {
+        return boardService.getBoardDtl(boardId);
     }
 }

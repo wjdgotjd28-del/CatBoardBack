@@ -2,6 +2,7 @@ package com.catboardback.service;
 
 import com.catboardback.entity.BoardImg;
 import com.catboardback.repository.BoardImgRepository;
+import jakarta.persistence.EntityExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -37,5 +38,25 @@ public class BoardImgService {
         boardImg.updateItemImg(oriImgName, imgName, imgUrl);
         //DB에 저장된 파일 정보 저장 . . .2
         boardImgRepository.save(boardImg);
+    }
+
+    public void updateBoardImg(Long boardImgId, MultipartFile boardImgFile)throws Exception{
+        if(!boardImgFile.isEmpty()){
+            BoardImg savedBoardImg = boardImgRepository.findById(boardImgId)
+                    .orElseThrow(EntityExistsException::new);
+
+            // 비어있지 않을때,
+            if(!StringUtils.isEmpty(savedBoardImg.getImgName())){
+                //기존에 파일시스템에 저장되어있던 이미지 삭제
+                fileService.deleteFile(boardImgLocation + "/" + savedBoardImg.getImgName());
+            }
+            //2. DB에 기존 레코드 내용 업데이트
+            // Jpa Entity update ==> dirty checking => 조회된 엔티티의 필드변경.
+            String oriImgName = boardImgFile.getOriginalFilename();
+            // 새 파일 저장하고 저장된 파일명 받기
+            String boardName = fileService.uploadFile(boardImgLocation, oriImgName, boardImgFile.getBytes());
+            String boardUrl = "/images/board/" + boardName;
+            savedBoardImg.updateItemImg(oriImgName, boardName, boardUrl);
+        }
     }
 }

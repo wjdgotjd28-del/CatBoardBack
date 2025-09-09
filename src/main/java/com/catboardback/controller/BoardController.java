@@ -3,7 +3,6 @@ package com.catboardback.controller;
 import com.catboardback.constant.Category;
 import com.catboardback.dto.BoardDto;
 import com.catboardback.dto.BoardFormDto;
-import com.catboardback.entity.Board;
 import com.catboardback.service.BoardService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +50,33 @@ public class BoardController {
 
     // 게시글 상세 조회
     @GetMapping("/board/{boardId}")
-    public BoardDto getBoardDtl(@PathVariable Long boardId) {
+    public BoardFormDto getBoardDtl(@PathVariable Long boardId) {
         return boardService.getBoardDtl(boardId);
+    }
+
+    @PutMapping("/board/{boardId}")
+    public ResponseEntity<?> updateBoard(
+            @Valid @ModelAttribute BoardFormDto boardFormDto,
+            BindingResult bindingResult,
+            @RequestParam(value = "boardImgFile", required = false) List<MultipartFile> boardImgFileList,
+            Authentication authentication) {
+
+        // 유효성 검증
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body("필수 입력값이 누락되었습니다.");
+        }
+
+        try {
+            Long boardId = boardService.updateBoard(boardFormDto, boardImgFileList);
+            return ResponseEntity.ok(boardId); // 게시글아이디 반환
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError()
+                    .body("게시글 등록 중 에러가 발생했습니다.");
+        }
+    }
+    @DeleteMapping("/board/{boardId}")
+    public Long deleteBoard(@PathVariable("boardId") Long boardId) throws Exception {
+        return boardService.deleteBoard(boardId);
     }
 }

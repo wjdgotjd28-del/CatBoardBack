@@ -32,6 +32,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests((request) -> request
                         // 로그인 요청(/login)은 누구나 접근 허용
                         .requestMatchers(HttpMethod.POST, "/login","/signup").permitAll()
+                        // 이미지
+                        .requestMatchers("/images/**").permitAll()
                         // 그 외 모든 요청은 인증 필요
                         .anyRequest().authenticated())
                 // 로그인 필터보다 먼저 모든 요청을 가로채서 JWT 토큰을 확인하고 인증 정보를 SecurityContext에 넣겠다

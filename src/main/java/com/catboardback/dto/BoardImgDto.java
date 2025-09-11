@@ -2,11 +2,15 @@ package com.catboardback.dto;
 
 
 import com.catboardback.entity.BoardImg;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class BoardImgDto {
     private Long id;
     private String imgName;

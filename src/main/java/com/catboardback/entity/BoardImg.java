@@ -3,11 +3,13 @@ package com.catboardback.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "board_img")
 @Getter
 @Setter
+@ToString
 public class BoardImg {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -2,11 +2,11 @@ package com.catboardback.dto;
 
 import com.catboardback.constant.Category;
 import com.catboardback.entity.Board;
+import com.catboardback.entity.Member;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
-
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class BoardFormDto {
 
     private Long id;
@@ -32,6 +33,8 @@ public class BoardFormDto {
 
     private LocalDateTime regTime;
 
+    private String nickname;
+    private String email;
 
     private List<BoardImgDto> boardImgDtoList = new ArrayList<>();
 
@@ -48,15 +51,22 @@ public class BoardFormDto {
                 .build();
     }
 
+    ///  public Board toEntity(Board board)로 변환
     // DTO -> Entity 변환
-    public Board toEntity(Board board) {
+    public Board toEntity(Member member) {
         return Board.builder()
-                .id(this.id)
                 .category(this.category)
                 .title(this.title)
                 .content(this.content)
                 .regTime(LocalDateTime.now())
-                .member(board.getMember())
+                .member(member)
                 .build();
+    }
+    private static ModelMapper modelMapper = new ModelMapper();
+
+    public static BoardFormDto of(Board board){
+        BoardFormDto dto = modelMapper.map(board, BoardFormDto.class);
+        dto.setNickname(board.getMember() != null ? board.getMember().getNickName() : null);
+        return dto;
     }
 }

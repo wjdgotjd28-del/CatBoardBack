@@ -1,6 +1,7 @@
 package com.catboardback.entity;
 
 import com.catboardback.constant.Category;
+import com.catboardback.dto.BoardFormDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,9 +32,15 @@ public class Board
 
     private LocalDateTime regTime;
 
-    private String imgUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    public void updateBoard(BoardFormDto boardFormDto) {
+        this.category = boardFormDto.getCategory();
+        this.title = boardFormDto.getTitle();
+        this.content = boardFormDto.getContent();
+        this.regTime = LocalDateTime.now();
+    }
 }

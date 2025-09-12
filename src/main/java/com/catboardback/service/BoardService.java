@@ -9,6 +9,7 @@ import com.catboardback.entity.BoardImg;
 import com.catboardback.entity.Member;
 import com.catboardback.repository.BoardImgRepository;
 import com.catboardback.repository.BoardRepository;
+import com.catboardback.repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
